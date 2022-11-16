@@ -24,12 +24,7 @@ export default function Dashboard() {
   const ClickSubmit = ()=>{
     axios.get(`https://8000-itsrajatkum-merndeshboa-ozqffjz0qay.ws-us74.gitpod.io/chart-data?type=${type}&range=${range}&data=${range == "year" ? year: range == "month" ? year+"-"+month: date}`)
     .then((response) => {
-      console.log(response.data
-        
-        \
-        
-        
-        )
+      console.log(response.data)
       setData2(response.data.data);
       setLoaded2(true)
     });

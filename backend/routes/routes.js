@@ -114,11 +114,12 @@ app.get("/chart-data", (req, res) => {
 				console.log(localdate)
 				SalesDB.find({
 					"date": {
-						$gte: new Date(`${localdate[0]}-${localdate[1]}-01T00:00:00.000Z`),
-						$lte: new Date(`${localdate[0]}-${localdate[1]}-31T00:00:00.000Z`),
+						$gte: new Date(`${localdate[0]}-${(localdate[1]<10? "0"+(localdate[1]-1) :localdate[1]-1) }-01T00:00:00.000Z`),
+						$lte: new Date(`${localdate[0]}-${localdate[1]<10? "0"+localdate[1] :localdate[1]}-31T00:00:00.000Z`),
 					}
 				}, (err, result) => {
 					console.log(err, result)
+					var st = new Set()
 					var response = {
 						label: [], dataset: [
 							{ label: "A", data: [] },
@@ -127,7 +128,60 @@ app.get("/chart-data", (req, res) => {
 							{ label: "D", data: [] }
 						]
 					}
-					return res.status(200).json({ status: "success", message: "success", data: result });
+					var mapA = new Map()
+					var mapB = new Map()
+					var mapC = new Map()
+					var mapD = new Map()
+
+					result.map((item)=>{
+						st.add(item.date.getDate());
+						if (!mapA.has(item.date.getDate())) {
+							mapA.set(item.date.getDate(), 0)
+						}
+						if (!mapB.has(item.date.getDate())) {
+							mapB.set(item.date.getDate(), 0)
+						}
+						if (!mapC.has(item.date.getDate())) {
+							mapC.set(item.date.getDate(), 0)
+						}
+						if (!mapD.has(item.date.getDate())) {
+							mapD.set(item.date.getDate(), 0)
+						}
+						if (item.product_name === "A") {
+							mapA.set(item.date.getDate(), mapA.get(item.date.getDate())+ item.quantity);
+						}
+						if (item.product_name === "B") {
+							mapB.set(item.date.getDate(), mapB.get(item.date.getDate()) + item.quantity);
+						}
+						if (item.product_name === "C") {
+							mapC.set(item.date.getDate(), mapC.get(item.date.getDate()) + item.quantity);
+						}
+						if (item.product_name === "D") {
+							mapD.set(item.date.getDate(), mapD.get(item.date.getDate()) + item.quantity);
+						}
+						
+					})
+					st = Array.from(st).reverse()
+					var arrA = st.map((ele) => {
+						return mapA.get(ele);
+					})
+					var arrB = st.map((ele) => {
+						return mapB.get(ele);
+					})
+					var arrC = st.map((ele) => {
+						return mapC.get(ele);
+					})
+					var arrD = st.map((ele) => {
+						return mapD.get(ele);
+					})
+					console.log(st)
+					response.label = [...st]
+					response.dataset[0].data = [...arrA]
+					response.dataset[1].data = [...arrB]
+					response.dataset[2].data = [...arrC]
+					response.dataset[3].data = [...arrD]
+					console.log(response)
+					return res.status(200).json({ status: "success", message: "success", data: response });
 				})
 			}
 			else if (range === "day") {
