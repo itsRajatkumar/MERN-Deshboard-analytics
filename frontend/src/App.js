@@ -12,7 +12,7 @@ import AddData from "./Components/AddData/AddData";
 
 function App() {
   return (
-    <Router>
+    <Router basename="/"> 
       <Navbar/>
       <Routes>
       <>

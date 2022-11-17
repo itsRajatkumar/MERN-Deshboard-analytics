@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const router = require('./routes/routes')
 const db = require('./database/db')
 require('dotenv').config();
+const path = require('path');
 const app = express()
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -20,7 +21,14 @@ app.use(router);
 
 db()
 
-const port = 8000 || process.env.PORT;
+const port =  process.env.PORT || 8000;
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../frontend', 'build')));
+    app.get('/*', (req, res) => {
+      res.sendFile(path.join(__dirname, '../frontend', 'build', 'index.html'));
+    })
+  }
 
 app.listen(port, () => {  
     console.log('We are live on ' + port);
