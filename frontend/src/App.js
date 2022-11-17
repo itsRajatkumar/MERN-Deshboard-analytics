@@ -6,6 +6,8 @@ import {
 import Navbar from "./Components/Navbar/Navbar";
 import Dashboard from "./Pages/Dashboard";
 import './App.css'
+// import Dotenv from 'dotenv';
+// Dotenv.config()
 
 function App() {
   return (

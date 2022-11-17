@@ -5,7 +5,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
-export default function SelectType({setRange,range,type,setType}) {
+export default function SelectType({setRange,range,type,setType,ClickSubmit}) {
   return (
     <div style={{width:"40vw", display:"flex", flexDirection: "row" ,justifyContent:"space-between"}}>
       <FormControl>
@@ -18,7 +18,7 @@ export default function SelectType({setRange,range,type,setType}) {
         name="row-radio-buttons-group"
       >
         <FormControlLabel value="normal" control={<Radio />} label="Normal" />
-        <FormControlLabel value="comparison" control={<Radio />} label="Comparison" />
+        {/* <FormControlLabel value="comparison" control={<Radio />} label="Comparison" /> */}
       </RadioGroup>
     </FormControl>
 
@@ -35,7 +35,7 @@ export default function SelectType({setRange,range,type,setType}) {
         <FormControlLabel value="year" control={<Radio />} label="Year" />
         <FormControlLabel value="month" control={<Radio />} label="Month" />
         <FormControlLabel value="day" control={<Radio />} label="Day" />
-        <FormControlLabel value="last7" control={<Radio />} label="Last 7 Days" />
+        <FormControlLabel onClick={ClickSubmit} value="last7" control={<Radio />} label="Last 7 Days" />
       </RadioGroup>
     </FormControl>
     </div>
