@@ -642,10 +642,11 @@ app.get("/chart-data", (req, res) => {
 app.get("/table", (req, res) => {
 	try {
 
-		SalesDB.find({}, (err, result) => {
+		SalesDB.find({} , (err, result) => {
 			console.log(err, result)
-			return res.status(200).json({ status: "success", message: "success", data: result });
+				return res.status(200).json({ status: "success", message: "success", data: result });
 		})
+
 
 	} catch (error) {
 		console.log(error);

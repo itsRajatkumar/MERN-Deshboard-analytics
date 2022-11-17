@@ -27,10 +27,10 @@ export default function TableList() {
   const [data, setData] = useState([])
   React.useEffect(() => {
     
-    axios.get("https://8000-itsrajatkum-merndeshboa-ozqffjz0qay.ws-us74.gitpod.io/table",{
+    axios.get(`${process.env.REACT_APP_API}/table`,{
       headers: { }
     }).then((response) => {
-      setData(response.data);
+      setData(response.data.data);
     });
   }, []);
   console.log(data);
@@ -38,29 +38,23 @@ export default function TableList() {
     <>
     <Typography variant="h3" gutterBottom>Detailed Table</Typography>
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth: 400 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Date</TableCell>
-            <TableCell align="right">Product A</TableCell>
-            <TableCell align="right">Product B</TableCell>
-            <TableCell align="right">Product C</TableCell>
-            <TableCell align="right">Product D</TableCell>
+            <TableCell align="right">Product Name</TableCell>
+            <TableCell align="right">Quantity</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {data.map((row) => (
             <TableRow
-              key={row.name}
+              key={row._id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="right">{row.date}</TableCell>
+              <TableCell align="right">{row.product_name}</TableCell>
+              <TableCell align="right">{row.quantity}</TableCell>
             </TableRow>
           ))}
         </TableBody>
